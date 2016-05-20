@@ -1,4 +1,5 @@
 # SiStER
+Simple Stokes solver with Exotic Rhologies
 An easy-to-use MATLAB code to simulate long-term lithosphere and mantle deformation.
 
 J.-A. Olive, B.Z. Klein, E. Mittelstaedt, M. Behn, G. Ito, S. Howell
