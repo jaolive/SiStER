@@ -86,7 +86,7 @@ elseif PARAMS.epsII_from_stress==1
 
     % estimate strainrate using updated stresses
     exxm=sxxmtemp./(2*etam)+(dsxxm)./(2*dt_m.*Gm);  
-    exym=sxymtemp./(2*etam)+(dsxxm)./(2*dt_m.*Gm);  
+    exym=sxymtemp./(2*etam)+(dsxym)./(2*dt_m.*Gm);
     epsIIm=sqrt(exxm.^2+exym.^2);
     
 end
