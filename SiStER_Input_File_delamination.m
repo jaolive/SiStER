@@ -2,26 +2,20 @@
 
 
 % DURATION OF SIMULATION AND FREQUENCY OF OUTPUT %%%%%%%%%%%%%%%%%%%%%%%%%%
-Nt=100; % max number of time iterations
+Nt=200; % max number of time iterations
 dt_out=10; % output files every "dt_out" iterations
 
 
 % DOMAIN SIZE AND GRIDDING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-xsize=90e3;
-ysize=30e3;
+xsize=500e3;
+ysize=300e3;
 % gridding- from 0 to GRID.x(1), grid size is GRID.dx(1)
 % from GRID.x(1) to GRID.x(2), grid size is GRID.dx(1) etc...
 % same for y
-GRID.dx(1)=2000/1;
-GRID.x(1)=30e3;
-GRID.dx(2)=400/1;
-GRID.x(2)=60e3;
-GRID.dx(3)=2000/1;
-GRID.dy(1)=2000/1;
-GRID.y(1)=9e3;
-GRID.dy(2)=400/1;
-GRID.y(2)=22e3;
-GRID.dy(3)=2000/1;
+GRID.dx(1)=5e3;
+GRID.x(1)=500e3;
+GRID.dy(1)=5e3;
+GRID.y(1)=300e3;
 
 
 % LAGRANGIAN MARKERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,23 +24,29 @@ Mquad_crit=3; % minimum number of markers allowed in smallest quadrant (for rese
 
 % GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nphase=3; % number of phases
+Nphase=4; % number of phases
 
 % phase 1
 GEOM(1).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
 GEOM(1).top=0;
-GEOM(1).bot=10e3;
+GEOM(1).bot=50e3;
 
 % phase 2
 GEOM(2).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
-GEOM(2).top=10e3;
-GEOM(2).bot=30e3;
+GEOM(2).top=50e3;
+GEOM(2).bot=150e3;
 
 % phase 3
-GEOM(3).type=2; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
-GEOM(3).x0=xsize/2;
-GEOM(3).y0=20e3;
-GEOM(3).rad=1e3;
+GEOM(3).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
+GEOM(3).top=150e3;
+GEOM(3).bot=300e3;
+
+% phase 4
+GEOM(4).type=3; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
+GEOM(4).top=100e3;
+GEOM(4).bot=190e3;
+GEOM(4).left=200e3;
+GEOM(4).right=300e3;
 
 
 % MATERIAL PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,58 +72,79 @@ MAT(1).Edisc=0;
 MAT(1).ndisc=1;
 % plasticity
 MAT(1).mu=0.6;
-MAT(1).Cmax=40e6;
-MAT(1).Cmin=0.01e6;
+MAT(1).Cmax=1e10;
+MAT(1).Cmin=1e10;
 MAT(1).ecrit=0.1;
 
 
 % phase 2
 MAT(2).phase=2;
 % density parameters
-MAT(2).rho0=2700;
+MAT(2).rho0=3400;
 MAT(2).alpha=0;
 % elasticity 
-MAT(2).G=30e9;
+MAT(2).G=1e18;
 % diffusion creep parameters
-MAT(2).pre_diff=.5/1e40;
+MAT(2).pre_diff=.5/1e20;
 MAT(2).Ediff=0;
 MAT(2).ndiff=1;
 % dislocation creep parameters
-MAT(2).pre_disc=1.0e-3;
-MAT(2).Edisc=167000*2.25;
-MAT(2).ndisc=2;
+MAT(2).pre_disc=0.5/1e20;
+MAT(2).Edisc=0;
+MAT(2).ndisc=1;
 % plasticity
 MAT(2).mu=0.6;
-MAT(2).Cmax=40e6;
-MAT(2).Cmin=0.01e6;
+MAT(2).Cmax=1e10;
+MAT(2).Cmin=1e10;
 MAT(2).ecrit=0.1;
-
 
 % phase 3
 MAT(3).phase=3;
 % density parameters
-MAT(3).rho0=2700;
+MAT(3).rho0=3200;
 MAT(3).alpha=0;
 % elasticity 
-MAT(3).G=30e9;
+MAT(3).G=1e18;
 % diffusion creep parameters
-MAT(3).pre_diff=.5/1e40;
+MAT(3).pre_diff=.5/1e19;
 MAT(3).Ediff=0;
 MAT(3).ndiff=1;
 % dislocation creep parameters
-MAT(3).pre_disc=1.0e-3;
-MAT(3).Edisc=167000*2.25;
-MAT(3).ndisc=2;
+MAT(3).pre_disc=.5/1e19;
+MAT(3).Edisc=0;
+MAT(3).ndisc=1;
 % plasticity
 MAT(3).mu=0.6;
-MAT(3).Cmax=0.01e6;
-MAT(3).Cmin=0.01e6;
+MAT(3).Cmax=1e10;
+MAT(3).Cmin=1e10;
 MAT(3).ecrit=0.1;
+
+% phase 4
+MAT(4).phase=4;
+% density parameters
+MAT(4).rho0=3400;
+MAT(4).alpha=0;
+% elasticity 
+MAT(4).G=1e18;
+% diffusion creep parameters
+MAT(4).pre_diff=.5/1e20;
+MAT(4).Ediff=0;
+MAT(4).ndiff=1;
+% dislocation creep parameters
+MAT(4).pre_disc=.5/1e20;
+MAT(4).Edisc=0;
+MAT(4).ndisc=1;
+% plasticity
+MAT(4).mu=0.6;
+MAT(4).Cmax=1e10;
+MAT(4).Cmin=1e10;
+MAT(4).ecrit=0.1;
 
 
 % ADDITIONAL PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-PARAMS.YNElast=1; % elasticity on (1) or off (0)
-PARAMS.YNPlas=1; % plasticity on (1) or off (0)
+PARAMS.YNElast=0; % elasticity on (1) or off (0)
+PARAMS.YNPlas=0; % plasticity on (1) or off (0)
+PARAMS.epsII_from_stress=1; % get strain rate from stresses (1, default) or from velocity field (0)
 PARAMS.tau_heal=1e12; % healing time for plasticity (s)
 PARAMS.gx=0; % gravity along x
 PARAMS.gy=9.8; % gravity along y
@@ -131,7 +152,7 @@ PARAMS.fracCFL=0.5; % distance by which a marker is allowed to move over a time 
 PARAMS.R=8.314; % gas constant
 PARAMS.etamax=1e25; % maximum viscosity
 PARAMS.etamin=1e18; % minimum viscosity
-PARAMS.Tsolve=1; % yes (1) or no (0) solve for temperature
+PARAMS.Tsolve=0; % yes (1) or no (0) solve for temperature
 % initial temperature profile, polynomial with depth 
 % T = a0 + a1*y+a2*y^2+a3*y^3+amp*sin(2*pi*X/lam)
 % (make sure it matches the BCs)
@@ -155,11 +176,13 @@ PARAMS.YNSurfaceProcesses=0; % surface processes (diffusion of topography) on or
 PARAMS.topo_kappa=1e-9; % diffusivity of topography (m^2/s)
 
 
+
 % Solver iterations
 PARAMS.Npicard_min=3; % minimum number of Picard iterations per time step
 PARAMS.Npicard_max=50; % maximum number of Picard iterations per time step
 PARAMS.conv_crit_ResL2=1e-3;
 PARAMS.pitswitch=30; % number of Picard iterations at which the solver switches to quasi-Newton
+
 
 
 % BOUNDARY CONDITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -176,11 +199,11 @@ PARAMS.p0cell=0; % pressure in the top-left corner of the domain (anchor point)
 % 2/ type of velocity normal to boundary (0=constant)
 % 3/ value of normal velocity 
 
-BC.top=[1 3 1.0563e-10];
-BC.bot=[1 0 -1.0563e-10];
-BC.left=[1 0 -3.1688e-10];
-BC.right=[1 0 3.1688e-10];
-PARAMS.BalanceStickyLayer=1; % if set to 1, the code will reset the inflow 
+BC.top=[1 0 0.];
+BC.bot=[1 0 0.];
+BC.left=[1 0 0.];
+BC.right=[1 0 0.];
+PARAMS.BalanceStickyLayer=0; % if set to 1, the code will reset the inflow 
 % / outflow BCs to balance the inflow / outflow of sticky layer material,
 % and rock separately, based on the position of the sticky layer / air
 % interface
@@ -189,7 +212,7 @@ PARAMS.BalanceStickyLayer=1; % if set to 1, the code will reset the inflow
 % thermal 
 
 % entries in BCtherm correspond to
-% 1/ type? (1=Dirichlet, 2=Neumann)
+% 1/ type? (1=Dirichlet, 0=Neumann)
 % 2/ value
 BCtherm.top=[1 0];
 BCtherm.bot=[1 1000];

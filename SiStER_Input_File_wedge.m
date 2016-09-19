@@ -7,21 +7,16 @@ dt_out=10; % output files every "dt_out" iterations
 
 
 % DOMAIN SIZE AND GRIDDING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-xsize=90e3;
-ysize=30e3;
+xsize=120e3;
+ysize=20e3;
 % gridding- from 0 to GRID.x(1), grid size is GRID.dx(1)
 % from GRID.x(1) to GRID.x(2), grid size is GRID.dx(1) etc...
 % same for y
-GRID.dx(1)=2000/1;
-GRID.x(1)=30e3;
-GRID.dx(2)=400/1;
-GRID.x(2)=60e3;
-GRID.dx(3)=2000/1;
-GRID.dy(1)=2000/1;
-GRID.y(1)=9e3;
-GRID.dy(2)=400/1;
-GRID.y(2)=22e3;
-GRID.dy(3)=2000/1;
+GRID.dx(1)=1000/2;
+GRID.x(1)=120e3;
+GRID.dy(1)=1000/2;
+GRID.y(1)=20e3;
+
 
 
 % LAGRANGIAN MARKERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -30,23 +25,28 @@ Mquad_crit=3; % minimum number of markers allowed in smallest quadrant (for rese
 
 % GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Nphase=3; % number of phases
+Nphase=4; % number of phases
 
 % phase 1
 GEOM(1).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
 GEOM(1).top=0;
-GEOM(1).bot=10e3;
+GEOM(1).bot=7e3;
 
 % phase 2
 GEOM(2).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
-GEOM(2).top=10e3;
-GEOM(2).bot=30e3;
+GEOM(2).top=7e3;
+GEOM(2).bot=18e3;
 
 % phase 3
-GEOM(3).type=2; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
-GEOM(3).x0=xsize/2;
-GEOM(3).y0=20e3;
-GEOM(3).rad=1e3;
+GEOM(3).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
+GEOM(3).top=18e3;
+GEOM(3).bot=20e3;
+
+% phase 4
+GEOM(4).type=2; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
+GEOM(4).x0=xsize/9;
+GEOM(4).y0=17e3;
+GEOM(4).rad=1e3;
 
 
 % MATERIAL PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -98,33 +98,54 @@ MAT(2).Cmax=40e6;
 MAT(2).Cmin=0.01e6;
 MAT(2).ecrit=0.1;
 
-
 % phase 3
 MAT(3).phase=3;
 % density parameters
 MAT(3).rho0=2700;
 MAT(3).alpha=0;
 % elasticity 
-MAT(3).G=30e9;
+MAT(3).G=1e18;
 % diffusion creep parameters
-MAT(3).pre_diff=.5/1e40;
+MAT(3).pre_diff=.5/1e18;
 MAT(3).Ediff=0;
 MAT(3).ndiff=1;
 % dislocation creep parameters
-MAT(3).pre_disc=1.0e-3;
-MAT(3).Edisc=167000*2.25;
-MAT(3).ndisc=2;
+MAT(3).pre_disc=.5/1e18;
+MAT(3).Edisc=0;
+MAT(3).ndisc=1;
 % plasticity
 MAT(3).mu=0.6;
-MAT(3).Cmax=0.01e6;
+MAT(3).Cmax=40e6;
 MAT(3).Cmin=0.01e6;
 MAT(3).ecrit=0.1;
+
+% phase 4
+MAT(4).phase=4;
+% density parameters
+MAT(4).rho0=2700;
+MAT(4).alpha=0;
+% elasticity 
+MAT(4).G=30e9;
+% diffusion creep parameters
+MAT(4).pre_diff=.5/1e40;
+MAT(4).Ediff=0;
+MAT(4).ndiff=1;
+% dislocation creep parameters
+MAT(4).pre_disc=1.0e-3;
+MAT(4).Edisc=167000*2.25;
+MAT(4).ndisc=2;
+% plasticity
+MAT(4).mu=0.6;
+MAT(4).Cmax=0.01e6;
+MAT(4).Cmin=0.01e6;
+MAT(4).ecrit=0.1;
+
 
 
 % ADDITIONAL PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 PARAMS.YNElast=1; % elasticity on (1) or off (0)
 PARAMS.YNPlas=1; % plasticity on (1) or off (0)
-PARAMS.tau_heal=1e12; % healing time for plasticity (s)
+PARAMS.tau_heal=1e11; % healing time for plasticity (s)
 PARAMS.gx=0; % gravity along x
 PARAMS.gy=9.8; % gravity along y
 PARAMS.fracCFL=0.5; % distance by which a marker is allowed to move over a time step, expressed as a fraction of the smallest cell size
@@ -151,11 +172,10 @@ PARAMS.cpref=1000;
 
 % TOPOGRAPHY EVOLUTION (interface between rock and sticky air/water layer)
 PARAMS.Ntopo_markers=1000; % number of markers in marker chain tracking topography
-PARAMS.YNSurfaceProcesses=0; % surface processes (diffusion of topography) on or off
-PARAMS.topo_kappa=1e-9; % diffusivity of topography (m^2/s)
+PARAMS.YNSurfaceProcesses=1; % surface processes (diffusion of topography) on or off
+PARAMS.topo_kappa=1e-8; % diffusivity of topography (m^2/s)
 
-
-% Solver iterations
+% Picard iterations
 PARAMS.Npicard_min=3; % minimum number of Picard iterations per time step
 PARAMS.Npicard_max=50; % maximum number of Picard iterations per time step
 PARAMS.conv_crit_ResL2=1e-3;
@@ -176,11 +196,12 @@ PARAMS.p0cell=0; % pressure in the top-left corner of the domain (anchor point)
 % 2/ type of velocity normal to boundary (0=constant)
 % 3/ value of normal velocity 
 
-BC.top=[1 3 1.0563e-10];
-BC.bot=[1 0 -1.0563e-10];
-BC.left=[1 0 -3.1688e-10];
-BC.right=[1 0 3.1688e-10];
-PARAMS.BalanceStickyLayer=1; % if set to 1, the code will reset the inflow 
+BC.top=[1 3 0];
+BC.bot=[0 0 0 -.01/365.25/24/3600];
+BC.left=[1 0 0];
+BC.right=[1 0 -.01/365.25/24/3600];
+BC.bot_profile=-(.01/365.25/24/3600)*ones(1,481).*(1-exp(-([1:481]-1)/10));
+PARAMS.BalanceStickyLayer=0; % if set to 1, the code will reset the inflow 
 % / outflow BCs to balance the inflow / outflow of sticky layer material,
 % and rock separately, based on the position of the sticky layer / air
 % interface
@@ -192,6 +213,6 @@ PARAMS.BalanceStickyLayer=1; % if set to 1, the code will reset the inflow
 % 1/ type? (1=Dirichlet, 2=Neumann)
 % 2/ value
 BCtherm.top=[1 0];
-BCtherm.bot=[1 1000];
+BCtherm.bot=[1 400];
 BCtherm.left=[2 0];
 BCtherm.right=[2 0];

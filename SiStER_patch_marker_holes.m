@@ -1,5 +1,5 @@
-function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH)
-% function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH)
+function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH,epsIIm)
+% function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH,epsIIm)
 %
 % seeds new markers in all quadrants where marker density has fallen below
 % the threshold 
@@ -50,6 +50,7 @@ epNH_fix=[]; % non-healed plastic strain
 te_fix=[]; % temperature
 sxx_fix=[]; % stress
 sxy_fix=[]; % stress
+sr_fix=[]; % strain rate
    
 if ~isempty(iicr) % if there are critical quadrants
          
@@ -103,6 +104,7 @@ if ~isempty(iicr) % if there are critical quadrants
         te_fix=zeros(1,Nfix);
         sxx_fix=zeros(1,Nfix);
         sxy_fix=zeros(1,Nfix);
+        sr_fix=zeros(1,Nfix);
         
     else
         
@@ -118,9 +120,10 @@ if ~isempty(iicr) % if there are critical quadrants
         % assign the average temperature of the markers that are left in
         % the cell
         temp_fix=mean((Tm(icn==icell & jcn==jcell)));
-        % reassign mean stress of markers left in cell
+        % reassign mean stress / strain rate of markers left in cell
         stress_xx_fix=mean((sxxm(icn==icell & jcn==jcell)));
         stress_xy_fix=mean((sxym(icn==icell & jcn==jcell)));
+        strainrate_fix=mean((epsIIm(icn==icell & jcn==jcell)));
         
         end
 
@@ -132,6 +135,7 @@ if ~isempty(iicr) % if there are critical quadrants
     te_fix=[te_fix temp_fix*ones(1,Nfix)];
     sxx_fix=[sxx_fix stress_xx_fix*ones(1,Nfix)];
     sxy_fix=[sxy_fix stress_xy_fix*ones(1,Nfix)];
+    sr_fix=[sr_fix strainrate_fix*ones(1,Nfix)];
     
     
     end
@@ -153,6 +157,7 @@ idm(Ifix)=index_fix;
 Tm(Ifix)=te_fix;
 sxxm(Ifix)=sxx_fix;
 sxym(Ifix)=sxy_fix;
+epsIIm(Ifix)=sr_fix;
 
 
 fprintf('\n%d%s%d%s\n', length(Ifix), ' markers added in ', length(iicr), ' cell quadrants.')

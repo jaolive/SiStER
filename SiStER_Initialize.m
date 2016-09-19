@@ -34,14 +34,23 @@ end
 [Tm]=SiStER_interp_shear_nodes_to_markers(T,x,y,xm,ym,icn,jcn);
 Tm0=Tm;
 
-% initialize nodal strain rate
+% initialize nodal strain rate and other useful arrays
 EXX=zeros(size(X));
 EXY=zeros(size(X));
 vx=zeros(size(X));
 vy=zeros(size(X));
+v=vx;
+p=1e12*ones(size(EXX));  %initialize to be high so plasticity doesnt activate at t=1, pit=1;
+etan_new=zeros(Ny,Nx);
+%-------------------------------------------------------------------------
+% initialize dt_m small to keep things elastic & no plasticity at t=1, G.Ito
+%-------------------------------------------------------------------------
+if (exist('dt_m','var')==0);
+    dt_m=1e2;
+end
 
 % initialize marker chain to track base of layer 1 (sticky layer)
-Ntopo=1000;
+Ntopo=PARAMS.Ntopo_markers;
 topo_x=linspace(0,xsize,Ntopo);
 topo_y=GEOM(1).bot*ones(size(topo_x));
 topo_marker_spacing=mean(diff(topo_x)); % initial mean spacing of topography markers
