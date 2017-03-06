@@ -4,8 +4,8 @@
 [om]=SiStER_interp_shear_nodes_to_markers(ROT,x,y,xm,ym,icn,jcn);
 
 % rotate markers
-alpha=om*dt_m;
-sxymtemp = sxxm.*(sin(alpha).^2) + sxym.*cos(2.*alpha);
+alpha = om*dt_m;
+sxymtemp = sxxm.*sin(2.*alpha) + sxym.*cos(2.*alpha);
 sxxm = sxxm.*(cos(alpha).^2 - sin(alpha).^2)- sxym.*sin(2.*alpha);
 sxym=sxymtemp;
 
