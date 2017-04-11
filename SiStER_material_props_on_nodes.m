@@ -34,9 +34,17 @@ Cohes_n=n2interp(1).data;
 [n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,cohes);
 Cohes_s = n2interp(1).data;  
 
-[Mu_s]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_s);
-Mu_n=zeros(Ny,Nx);
-[Mu_n(2:end,2:end)]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_n(2:end,2:end));
+% old friction formulation
+%[Mu_s]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_s);
+%Mu_n=zeros(Ny,Nx);
+%[Mu_n(2:end,2:end)]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_n(2:end,2:end));
+
+% GET FRICTION BASED ON MARKERS J.A. Olive 4/17
+[fric]=SiStER_get_friction(im,ep,MAT); % friction depends on plastic strain
+[n2interp] = SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,fric);
+Mu_n=n2interp(1).data;
+[n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,fric);
+Mu_s = n2interp(1).data; 
 
 % ADVECTED strain rate invariant G.Ito 8/16
 [n2interp] = SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,epsIIm);
@@ -64,7 +72,7 @@ EXX_sOLD=SiStER_interp_normal_to_shear_nodes(EXX,dx,dy);
 EXY_nOLD=SiStER_interp_shear_to_normal_nodes(EXY);
 
 %TEMPERATURE ARRAYS NEEDED FOR DUCTILE RHEOLOGY  G.Ito 8/16
-Ts=SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,Tm);
-Ts=Ts.data;
-Tn=SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,Tm);
-Tn=Tn.data;
+[n2interp]=SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,Tm);
+Ts=n2interp(1).data;
+[n2interp]=SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,Tm);
+Tn=n2interp(1).data;

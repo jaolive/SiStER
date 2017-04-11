@@ -25,8 +25,6 @@ end
 % using conductivity, density and cp carried on markers
 % for now we use a constant diffusivity determined from the reference
 % values in the input file
-
-
 [T]=SiStER_thermal_solver_sparse(x,y,Told,PARAMS.rhoref*ones(size(T)),PARAMS.cpref*ones(size(T)),PARAMS.kref*ones(size(T)),PARAMS.kref*ones(size(T)),dt_m,BCtherm);  
 
 

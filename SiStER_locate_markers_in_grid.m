@@ -5,6 +5,7 @@ function [quad,icn,jcn] = SiStER_locate_markers_in_grid(xm,ym,x,y,dx,dy)
     % that a given marker is currently in
     % quad is the quadrant of the cell that contains the marker
     % (quad = 1 means bottom-right, then numbered clockwise)
+    % sped up by B. Klein in Fall 2016 by using interp1 function
 
 
 %% Determine Location of Markers and Quadrant of Element 
@@ -13,9 +14,14 @@ icn = zeros(1,M);
 jcn = icn;
 quad = icn; % quadrant 1 = bottom-right, numbered clockwise
 
+indX = 1:length(x);
+indY = 1:length(y);
 
-[~, Ix] = min(abs(bsxfun(@minus, xm, x')));
-[~, Iy] = min(abs(bsxfun(@minus, ym, y')));
+Ix = interp1(x, indX, xm, 'nearest', 'extrap');
+Iy = interp1(y, indY, ym, 'nearest', 'extrap');
+
+% [~, Ix] = min(abs(bsxfun(@minus, xm, x')));
+% [~, Iy] = min(abs(bsxfun(@minus, ym, y')));
 
 jcn(xm>x(Ix))  = Ix(xm>x(Ix));
 jcn(xm<=x(Ix)) = Ix(xm<=x(Ix))-1;

@@ -19,25 +19,25 @@ mdy=min(dy)/2;
 %%%%%%%%%%%%%%% LOOK FOR EMPTY (no more markers) QUADRANTS
 
 mp = accumarray({icn, jcn, quad}, 1, [Ny-1, Nx-1, 4]);
-    
 empty = find(mp==0);
-if(~isempty(empty))
-    [iEmpty,jEmpty,kEmpty] = ind2sub(size(mp), empty);
-    for n = 1:min(length(iEmpty), 100)
-        
-        disp(['WARNING ! Empty quadrant number ' num2str(kEmpty(n)) ' in cell i = ' num2str(iEmpty(n)) ', j = ' num2str(jEmpty(n))])
-        
+
+display_message_if_empty=0;
+if display_message_if_empty==1
+    if(~isempty(empty))
+        [iEmpty,jEmpty,kEmpty] = ind2sub(size(mp), empty);
+        for n = 1:min(length(iEmpty), 100)
+            disp(['WARNING ! Empty quadrant number ' num2str(kEmpty(n)) ' in cell i = ' num2str(iEmpty(n)) ', j = ' num2str(jEmpty(n))])
+        end
     end
 end
     
     
 %%%%% LOCATE QUADRANTS WHERE MARKER DENSITY IS BELOW THRESHOLD
-
-     mpCrInd = find(mp<md_crit);
-    [iicr, jjcr, qqcr] = ind2sub(size(mp), mpCrInd);
-    iicr = iicr';
-    jjcr = jjcr';
-    qqcr = qqcr';
+mpCrInd = find(mp<md_crit);
+[iicr, jjcr, qqcr] = ind2sub(size(mp), mpCrInd);
+iicr = iicr';
+jjcr = jjcr';
+qqcr = qqcr';
     
 % NEED TO SEED NEW MARKERS IN THOSE QUADRANTS 
 % SO THAT WE ARE BACK TO THE INITIAL MARKER DENSITY IN THOSE QUADRANTS
@@ -108,15 +108,12 @@ if ~isempty(iicr) % if there are critical quadrants
         
     else
         
-    
-        
+
         % assign the average phase of the markers that are left in the cell
         phase_fix=round(mode((im(icn==icell & jcn==jcell))));
         % assign the greatest plastic strain of the markers that are left in the cell
         strain_fix=max((ep(icn==icell & jcn==jcell)));
         strainNH_fix=max((epNH(icn==icell & jcn==jcell)));
-        % grow the index array
-        %index_fix=[max(idm)+1:1:max(idm)+Nfix];
         % assign the average temperature of the markers that are left in
         % the cell
         temp_fix=mean((Tm(icn==icell & jcn==jcell)));
@@ -125,10 +122,8 @@ if ~isempty(iicr) % if there are critical quadrants
         stress_xy_fix=mean((sxym(icn==icell & jcn==jcell)));
         strainrate_fix=mean((epsIIm(icn==icell & jcn==jcell)));
         
-        end
+    end
 
-
-    
     im_fix=[im_fix phase_fix*ones(1,Nfix)];
     ep_fix=[ep_fix strain_fix*ones(1,Nfix)];
     epNH_fix=[epNH_fix strainNH_fix*ones(1,Nfix)];
@@ -137,12 +132,10 @@ if ~isempty(iicr) % if there are critical quadrants
     sxy_fix=[sxy_fix stress_xy_fix*ones(1,Nfix)];
     sr_fix=[sr_fix strainrate_fix*ones(1,Nfix)];
     
-    
     end
 
 
-        
-
+       
 % NOW ASSIGN PROPERTIES TO THOSE MARKERS  
 Npatch=length(xrsd);
 index_fix=max(idm)+1:max(idm)+Npatch;
@@ -159,8 +152,8 @@ sxxm(Ifix)=sxx_fix;
 sxym(Ifix)=sxy_fix;
 epsIIm(Ifix)=sr_fix;
 
-
-fprintf('\n%d%s%d%s\n', length(Ifix), ' markers added in ', length(iicr), ' cell quadrants.')
+% uncomment to display number of added markers
+%fprintf('\n%d%s%d%s\n', length(Ifix), ' markers added in ', length(iicr), ' cell quadrants.')
    
 else
         

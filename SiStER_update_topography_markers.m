@@ -17,14 +17,12 @@ else
     topoR=interp1(topo_x,topo_y,xsize);
 end
 
-
 % eliminate topography markers that left domain, keep the first one out on both sides
 Iin=find(topo_x<xsize & topo_x>0);
 topo_x=topo_x(Iin);
 topo_y=topo_y(Iin);
 topo_x=[0 topo_x xsize];
 topo_y=[topoL topo_y topoR];
-
 
 if PARAMS.YNSurfaceProcesses==1
     % ERODE TOPOGRAPHY
@@ -34,9 +32,6 @@ if PARAMS.YNSurfaceProcesses==1
     im(im==1 & ym>=topomarkers)=2;
     im(im==2 & ym<topomarkers)=1;
 end
-
-
-
 
 % if there has been too much stretching, regrid the surface topography
 if max(diff(topo_x))>5*topo_marker_spacing

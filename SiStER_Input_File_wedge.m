@@ -176,10 +176,10 @@ PARAMS.YNSurfaceProcesses=1; % surface processes (diffusion of topography) on or
 PARAMS.topo_kappa=1e-8; % diffusivity of topography (m^2/s)
 
 % Picard iterations
-PARAMS.Npicard_min=3; % minimum number of Picard iterations per time step
-PARAMS.Npicard_max=50; % maximum number of Picard iterations per time step
-PARAMS.conv_crit_ResL2=1e-3;
-PARAMS.pitswitch=30; % number of Picard iterations at which the solver switches to quasi-Newton
+PARAMS.Npicard_min=10; % minimum number of Picard iterations per time step
+PARAMS.Npicard_max=100; % maximum number of Picard iterations per time step
+PARAMS.conv_crit_ResL2=1e-9;
+PARAMS.pitswitch=0; % number of Picard iterations at which the solver switches to quasi-Newton
 
 
 % BOUNDARY CONDITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

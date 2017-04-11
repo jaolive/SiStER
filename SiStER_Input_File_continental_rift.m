@@ -7,20 +7,20 @@ dt_out=10; % output files every "dt_out" iterations
 
 
 % DOMAIN SIZE AND GRIDDING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-xsize=90e3;
+xsize=120e3;
 ysize=30e3;
 % gridding- from 0 to GRID.x(1), grid size is GRID.dx(1)
 % from GRID.x(1) to GRID.x(2), grid size is GRID.dx(1) etc...
 % same for y
-GRID.dx(1)=2000/1;
-GRID.x(1)=30e3;
-GRID.dx(2)=400/1;
-GRID.x(2)=60e3;
-GRID.dx(3)=2000/1;
+GRID.dx(1)=3000/1;
+GRID.x(1)=40e3;
+GRID.dx(2)=500/1;
+GRID.x(2)=80e3;
+GRID.dx(3)=3000/1;
 GRID.dy(1)=2000/1;
 GRID.y(1)=9e3;
 GRID.dy(2)=400/1;
-GRID.y(2)=22e3;
+GRID.y(2)=30e3;
 GRID.dy(3)=2000/1;
 
 
@@ -72,6 +72,7 @@ MAT(1).Edisc=0;
 MAT(1).ndisc=1;
 % plasticity
 MAT(1).mu=0.6;
+MAT(1).mumin=0.6;
 MAT(1).Cmax=40e6;
 MAT(1).Cmin=0.01e6;
 MAT(1).ecrit=0.1;
@@ -94,6 +95,7 @@ MAT(2).Edisc=167000*2.25;
 MAT(2).ndisc=2;
 % plasticity
 MAT(2).mu=0.6;
+MAT(2).mumin=0.6;
 MAT(2).Cmax=40e6;
 MAT(2).Cmin=0.01e6;
 MAT(2).ecrit=0.1;
@@ -116,6 +118,7 @@ MAT(3).Edisc=167000*2.25;
 MAT(3).ndisc=2;
 % plasticity
 MAT(3).mu=0.6;
+MAT(3).mumin=0.6;
 MAT(3).Cmax=0.01e6;
 MAT(3).Cmin=0.01e6;
 MAT(3).ecrit=0.1;
@@ -151,15 +154,15 @@ PARAMS.cpref=1000;
 
 % TOPOGRAPHY EVOLUTION (interface between rock and sticky air/water layer)
 PARAMS.Ntopo_markers=1000; % number of markers in marker chain tracking topography
-PARAMS.YNSurfaceProcesses=0; % surface processes (diffusion of topography) on or off
-PARAMS.topo_kappa=1e-9; % diffusivity of topography (m^2/s)
+PARAMS.YNSurfaceProcesses=1; % surface processes (diffusion of topography) on or off
+PARAMS.topo_kappa=1e-8; % diffusivity of topography (m^2/s)
 
 
 % Solver iterations
-PARAMS.Npicard_min=3; % minimum number of Picard iterations per time step
-PARAMS.Npicard_max=50; % maximum number of Picard iterations per time step
-PARAMS.conv_crit_ResL2=1e-3;
-PARAMS.pitswitch=30; % number of Picard iterations at which the solver switches to quasi-Newton
+PARAMS.Npicard_min=10; % minimum number of Picard iterations per time step
+PARAMS.Npicard_max=100; % maximum number of Picard iterations per time step
+PARAMS.conv_crit_ResL2=1e-9;
+PARAMS.pitswitch=0; % number of Picard iterations at which the solver switches to quasi-Newton
 
 
 % BOUNDARY CONDITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -176,7 +179,7 @@ PARAMS.p0cell=0; % pressure in the top-left corner of the domain (anchor point)
 % 2/ type of velocity normal to boundary (0=constant)
 % 3/ value of normal velocity 
 
-BC.top=[1 3 1.0563e-10];
+BC.top=[1 0 1.0563e-10];
 BC.bot=[1 0 -1.0563e-10];
 BC.left=[1 0 -3.1688e-10];
 BC.right=[1 0 3.1688e-10];
