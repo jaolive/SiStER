@@ -12,7 +12,7 @@ for i = 1:length(types)
     logical = im == types(i);
     rho0 = MAT(types(i)).rho0;
     alpha = MAT(types(i)).alpha;
-    rhom(logical) = rho0.*1-(alpha.*(Tm(logical)-T0));
+    rhom(logical) = rho0.*(1-alpha.*(Tm(logical)-T0));
 end
 
 
