@@ -25,8 +25,8 @@ GRID.dy(3)=2000/1;
 
 
 % LAGRANGIAN MARKERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Mquad=6; % number of markers in the smallest quadrant
-Mquad_crit=3; % minimum number of markers allowed in smallest quadrant (for reseeding)
+Mquad=8;%6; % number of markers in the smallest quadrant
+Mquad_crit=4;%3; % minimum number of markers allowed in smallest quadrant (for reseeding)
 
 % GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -60,6 +60,9 @@ MAT(1).phase=1;
 % density parameters
 MAT(1).rho0=0.01;
 MAT(1).alpha=0;
+% thermal parameters
+MAT(1).k=3;
+MAT(1).cp=1000;
 % elasticity 
 MAT(1).G=1e18;
 % diffusion creep parameters
@@ -72,7 +75,7 @@ MAT(1).Edisc=0;
 MAT(1).ndisc=1;
 % plasticity
 MAT(1).mu=0.6;
-MAT(1).mumin=0.6;
+MAT(1).mumin=0.3;
 MAT(1).Cmax=40e6;
 MAT(1).Cmin=0.01e6;
 MAT(1).ecrit=0.1;
@@ -83,6 +86,9 @@ MAT(2).phase=2;
 % density parameters
 MAT(2).rho0=2700;
 MAT(2).alpha=0;
+% thermal parameters
+MAT(2).k=3;
+MAT(2).cp=1000;
 % elasticity 
 MAT(2).G=30e9;
 % diffusion creep parameters
@@ -95,7 +101,7 @@ MAT(2).Edisc=167000*2.25;
 MAT(2).ndisc=2;
 % plasticity
 MAT(2).mu=0.6;
-MAT(2).mumin=0.6;
+MAT(2).mumin=0.3;
 MAT(2).Cmax=40e6;
 MAT(2).Cmin=0.01e6;
 MAT(2).ecrit=0.1;
@@ -106,6 +112,9 @@ MAT(3).phase=3;
 % density parameters
 MAT(3).rho0=2700;
 MAT(3).alpha=0;
+% thermal parameters
+MAT(3).k=5;
+MAT(3).cp=1000;
 % elasticity 
 MAT(3).G=30e9;
 % diffusion creep parameters
@@ -118,7 +127,7 @@ MAT(3).Edisc=167000*2.25;
 MAT(3).ndisc=2;
 % plasticity
 MAT(3).mu=0.6;
-MAT(3).mumin=0.6;
+MAT(3).mumin=0.3;
 MAT(3).Cmax=0.01e6;
 MAT(3).Cmin=0.01e6;
 MAT(3).ecrit=0.1;

@@ -21,11 +21,24 @@ if BCtherm.right(1)==1
 end
 
 
-% In a future release we will have spatially variable diffusivity
-% using conductivity, density and cp carried on markers
-% for now we use a constant diffusivity determined from the reference
-% values in the input file
-[T]=SiStER_thermal_solver_sparse(x,y,Told,PARAMS.rhoref*ones(size(T)),PARAMS.cpref*ones(size(T)),PARAMS.kref*ones(size(T)),PARAMS.kref*ones(size(T)),dt_m,BCtherm);  
+
+% GET VARIABLE DIFFUSIVITY AND CP
+if isfield(MAT,'cp')==0 || isfield(MAT,'k')==0   
+    cpfield=PARAMS.cpref*ones(size(T));
+    kfield=PARAMS.kref*ones(size(T));
+    rhofield=PARAMS.rhoref*ones(size(T));    
+else
+    [km, cpm]=SiStER_get_thermal_properties(im,MAT);
+    [rhom]=SiStER_get_density(im,Tm,MAT);
+    [n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,km,cpm,rhom);
+    kfield=n2interp(1).data;
+    cpfield=n2interp(2).data;
+    rhofield=n2interp(3).data;
+
+end
+% THERMAL SOLVE
+[T]=SiStER_thermal_solver_sparse_CFD(x,y,Told,rhofield,cpfield,kfield,dt_m,BCtherm,zeros(size(T)));
+
 
 
 % temperature change
