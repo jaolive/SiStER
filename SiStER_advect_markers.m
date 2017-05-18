@@ -1,4 +1,4 @@
-function [xm_new,ym_new] = SiStER_advect_markers(x,y,xm,ym,dx,dy,tstep,vx,vy)
+function [xm_new,ym_new,vx_eff,vy_eff] = SiStER_advect_markers(x,y,xm,ym,dx,dy,tstep,vx,vy)
 % [xm_new,ym_new,vx_eff,vy_eff] = SiStER_advect_markers(x,y,xm,ym,dx,dy,tstep,vx,vy)
 %
 % Uses a Fourth-Order Runge-Kutta method to advect markers 
