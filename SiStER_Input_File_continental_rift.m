@@ -7,26 +7,26 @@ dt_out=10; % output files every "dt_out" iterations
 
 
 % DOMAIN SIZE AND GRIDDING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-xsize=120e3;
+xsize=90e3;
 ysize=30e3;
 % gridding- from 0 to GRID.x(1), grid size is GRID.dx(1)
 % from GRID.x(1) to GRID.x(2), grid size is GRID.dx(1) etc...
 % same for y
-GRID.dx(1)=3000/1;
-GRID.x(1)=40e3;
-GRID.dx(2)=500/1;
-GRID.x(2)=80e3;
-GRID.dx(3)=3000/1;
-GRID.dy(1)=2000/1;
+GRID.dx(1)=2000;
+GRID.x(1)=30e3;
+GRID.dx(2)=400;
+GRID.x(2)=60e3;
+GRID.dx(3)=2000;
+GRID.dy(1)=2000;
 GRID.y(1)=9e3;
-GRID.dy(2)=400/1;
-GRID.y(2)=30e3;
-GRID.dy(3)=2000/1;
+GRID.dy(2)=400;
+GRID.y(2)=22e3;
+GRID.dy(3)=2000;
 
 
 % LAGRANGIAN MARKERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Mquad=8;%6; % number of markers in the smallest quadrant
-Mquad_crit=4;%3; % minimum number of markers allowed in smallest quadrant (for reseeding)
+Mquad=8; % number of markers in the smallest quadrant
+Mquad_crit=4; % minimum number of markers allowed in smallest quadrant (for reseeding)
 
 % GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
