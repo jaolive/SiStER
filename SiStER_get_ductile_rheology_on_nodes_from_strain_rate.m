@@ -20,10 +20,13 @@ T = repmat(T, [1, 1, PARAMS.Nphase]);
 
 
 % TO BE REPLACED BY SiStER_flow_law_function SOON
-eta_diff = pre_diff.^(-1./ndiff).*epsII.^((1-ndiff)./ndiff).* ...
-    exp((Ediff)./(ndiff.*PARAMS.R.*(T+273.15)));
-eta_disc = pre_disc.^(-1./ndisc).*epsII.^((1-ndisc)./ndisc).* ...
-    exp((Edisc)./(ndisc.*PARAMS.R.*(T+273.15)));
+%eta_diff = pre_diff.^(-1./ndiff).*epsII.^((1-ndiff)./ndiff).* ...
+%    exp((Ediff)./(ndiff.*PARAMS.R.*(T+273.15)));
+%eta_disc = pre_disc.^(-1./ndisc).*epsII.^((1-ndisc)./ndisc).* ...
+%    exp((Edisc)./(ndisc.*PARAMS.R.*(T+273.15)));
+
+[eta_diff] = SiStER_flow_law_function('from_strain_rate',pre_diff,Ediff,ndiff,PARAMS.R,T,epsII,zeros(size(epsII)),PARAMS);
+[eta_disc] = SiStER_flow_law_function('from_strain_rate',pre_disc,Edisc,ndisc,PARAMS.R,T,epsII,zeros(size(epsII)),PARAMS);
 
 
 % linearly average between viscosity of each phase type
