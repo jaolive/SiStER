@@ -1,5 +1,6 @@
 % SiStER Initialize
 
+PARAMS.Nphase = Nphase; % for convenience
 
 % construct staggered grids
 [X,Y,x,y,xc,yc,dx,dy,Nx,Ny] = SiStER_initialize_grid(xsize,ysize,GRID);
