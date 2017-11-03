@@ -56,14 +56,14 @@ if PARAMS.YNElast==1
 
     % and use the stresses to re-update viscosity
     [etas_new]=SiStER_get_ductile_rheology_on_nodes_from_stresses(MAT,PARAMS,Ts,sII_s,phase_s);
-    [etan_new(2:end,2:end)]=SiStER_get_ductile_rheology_on_nodes_from_stresses(MAT,PARAMS,Tn(2:end,2:end),sII_n(2:end,2:end),phase_n(2:end,2:end));
-
+    [etan_new(2:end,2:end)]=SiStER_get_ductile_rheology_on_nodes_from_stresses(MAT,PARAMS,Tn(2:end,2:end),sII_n(2:end,2:end),phase_n(2:end,2:end,:));
+    
 else % if elasticity is off, the strain rate is entirely viscous, so we can use a strain rate-based viscosity law
     % this seems to yield an easier convergence than the bisection
     % algorithm in this case
     [etas_new]=SiStER_get_ductile_rheology_on_nodes_from_strain_rate(MAT,PARAMS,Ts,epsII_s,phase_s);
-    [etan_new(2:end,2:end)]=SiStER_get_ductile_rheology_on_nodes_from_strain_rate(MAT,PARAMS,Tn(2:end,2:end),epsII_n(2:end,2:end),phase_n(2:end,2:end));
- 
+    [etan_new(2:end,2:end)]=SiStER_get_ductile_rheology_on_nodes_from_strain_rate(MAT,PARAMS,Tn(2:end,2:end),epsII_n(2:end,2:end),phase_n(2:end,2:end,:));
+    
 end
 
 

@@ -5,13 +5,21 @@
 %=========================================================================
 
 % PHASE PROPORTIONS AT NORMAL AND SHEAR NODES. G.Ito 8/16
-[n2interp] = SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,im);
-phase_n=n2interp(1).data;
-phase_n=round(phase_n*1e10)/1e10;  %prevents a case in which phase_n>NPhase
+[phase_n] = SiStER_interp_phases_to_normal_nodes(xm,ym,icn,jcn,x,y,im, Nphase);
+[phase_s] = SiStER_interp_phases_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,im, Nphase);
+% phase_n and _s is a Ny*Nx*Nphase array containing the proportion
+% of each phase at each node - this gets used in get_ductile_rheology
+% functions
 
-[n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,im);
-phase_s=n2interp(1).data;
-phase_s=round(phase_s*1e10)/1e10; %prevents a case in which phase_n>NPhase
+% OLD WAY TO INTERP PHASES: ONLY WORKED WELL WHEN MIXING 2 CONSECUTIVELY 
+% NUMBERED PHASES AT ANY NODE
+% [n2interp] = SiStER_interp_markers_to_normal_nodes(xm,ym,icn,jcn,x,y,im);
+% phase_n=n2interp(1).data;
+% phase_n=round(phase_n*1e10)/1e10;  %prevents a case in which phase_n>NPhase
+% 
+% [n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,im);
+% phase_s=n2interp(1).data;
+% phase_s=round(phase_s*1e10)/1e10; %prevents a case in which phase_n>NPhase
 
 % GET MARKER DENSITIES 
 [rhom]=SiStER_get_density(im,Tm,MAT);
@@ -33,11 +41,6 @@ Gs = 1./(n2interp(1).data);
 Cohes_n=n2interp(1).data;
 [n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,cohes);
 Cohes_s = n2interp(1).data;  
-
-% old friction formulation
-%[Mu_s]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_s);
-%Mu_n=zeros(Ny,Nx);
-%[Mu_n(2:end,2:end)]=SiStER_get_mean_material_prop(cell2mat({MAT([1:Nphase]).mu}),phase_n(2:end,2:end));
 
 % GET FRICTION BASED ON MARKERS J.A. Olive 4/17
 [fric]=SiStER_get_friction(im,ep,MAT); % friction depends on plastic strain
