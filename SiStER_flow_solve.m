@@ -80,6 +80,7 @@ for pit=1:PARAMS.Npicard_max
         disp(['WARNING! ' num2str(pit) ' Picard / approx. Newton iterations failed to converge within tolerance of ' num2str( PARAMS.conv_crit_ResL2)]);
     end
 
+end
    
 %% get strain rate on nodes current solution
 [EXX,EXY]=SiStER_get_strain_rate(vx,vy,dx,dy,BC);
@@ -112,6 +113,6 @@ epsII_s=sqrt(EXX_s.^2+EXY.^2);
 % pause(.001)
 
 
-end
+%end
 
       
