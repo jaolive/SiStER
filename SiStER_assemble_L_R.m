@@ -127,6 +127,42 @@ for j=1:Nx
                 R(inp,1)=Kb*p0cell/Kc;
                            
             end
+            
+	elseif BC.DIKE.on==1
+				%&& (BC.INJ.type==2 ||  BC.INJ.type==3) && ...
+                %(i>=BC.INJ.top && i<=BC.INJ.bot) && j==BC.INJ.left
+        %elseif BC.INJ.on==1 && (BC.INJ.type==2 ||  BC.INJ.type==3) && ...
+        %        (i>=BC.INJ.top && i<=BC.INJ.bot) && j==BC.INJ.left
+            % Specified divergence
+            % Dike source term
+            % coeffs for vx
+      
+            Lii(nn) = inp;
+            Ljj(nn) = invx-3;
+            Lvv(nn) = Kc/dx(j-1);
+            nn      = nn+1;
+            
+            Lii(nn) = inp;
+            Ljj(nn) = invx-3*Ny-3;
+            Lvv(nn) = -Kc/dx(j-1);
+            nn      = nn+1;
+            
+            % coeffs for vy
+            
+            Lii(nn) = inp;
+            Ljj(nn) = invy-3*Ny;
+            Lvv(nn) = Kc/dy(i-1);
+            nn      = nn+1;
+            
+            Lii(nn) = inp;
+            Ljj(nn) = invy-3*Ny-3;
+            Lvv(nn) = -Kc/dy(i-1);
+            nn      = nn+1;
+            
+            % RHS
+      
+			R(inp,1)=BC.DIKE.MV(i,j)*Kc/dx(j-1);% TMorrow 26 Sep 2019
+            %R(inp,1)=2*BC.INJ.M(i)*Kc*v0/dx(j-1);%Updated for variable M-vector Paris Smalls 10/3/18
            
             
         else
