@@ -35,7 +35,12 @@ for t=1:Nt % time loop
     
     % Here we prepare nodal arrays to feed the Stokes solver 
     SiStER_material_props_on_nodes
-
+    
+    % Update dike condition
+    if BC.DIKE.on==1 & t>1
+        [BC,ep,epsIIm,epNH,sxxm,Tm,T,im,p]=SiStER_update_dike(BC,X,Y,x,y,xc,yc,T,topo_x,topo_y,xm,ym,im,xsize,ysize,icn,jcn,qd,Tm,ep,epsIIm,epNH,sxxm,t,p,MAT,BCtherm,time,dt_m);
+    end
+        
     %%% SOLVE STOKES WITH NON-LINEAR RHEOLOGY HERE 
     SiStER_flow_solve
     

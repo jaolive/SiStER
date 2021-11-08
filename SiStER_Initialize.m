@@ -56,4 +56,9 @@ topo_x=linspace(0,xsize,Ntopo);
 topo_y=GEOM(1).bot*ones(size(topo_x));
 topo_marker_spacing=mean(diff(topo_x)); % initial mean spacing of topography markers
 
+% initialize dike terms
+if BC.DIKE.on==1
+    SiStER_Initialize_dike
+end
+
 

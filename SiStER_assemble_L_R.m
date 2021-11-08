@@ -28,10 +28,10 @@ Kb=4*meta/(mdx+mdy)^2;
 
 
 % pressure anchor
-%IP=2;
-%JP=3;
-JP=ceil((Nx-1)/2); %G.Ito
 IP=2;
+JP=3;
+%JP=ceil((Nx-1)/2); %G.Ito
+%IP=2;
 
 
 % fill in FD matrix and right-hand side

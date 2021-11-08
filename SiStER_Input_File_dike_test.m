@@ -2,7 +2,7 @@
 
 
 % DURATION OF SIMULATION AND FREQUENCY OF OUTPUT %%%%%%%%%%%%%%%%%%%%%%%%%%
-Nt=100; % max number of time iterations
+Nt=20; % max number of time iterations
 dt_out=1; %10 % output files every "dt_out" iterations
 
 
@@ -23,18 +23,22 @@ Mquad=8; % number of markers in the smallest quadrant
 Mquad_crit=4; % minimum number of markers allowed in smallest quadrant (for reseeding)
 
 % GEOMETRY %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Nphase=5; % number of phases
-
+Nphase=2; % number of phases
 
 % phase 1
 GEOM(1).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
 GEOM(1).top=0;
-GEOM(1).bot=100e3;
+GEOM(1).bot=10e3;
 
-% phase 2 (dike)
+% phase 2
 GEOM(2).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
 GEOM(2).top=10e3;
-GEOM(2).bot=17e3;
+GEOM(2).bot=100e3;
+
+% phase 2 (dike)
+%GEOM(2).type=1; % 1 = layer (then specify top and bot) or 2 = circle % 1 = layer (then specify top and bot) or 2 = circle (then specify center and radius)
+%GEOM(2).top=10e3;
+%GEOM(2).bot=17e3;
 
 
 % MATERIAL PROPERTIES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -54,11 +58,11 @@ MAT(1).cp=1000;
 % elasticity 
 MAT(1).G=1e18;
 % diffusion creep parameters
-MAT(1).pre_diff=.5/1e20;
+MAT(1).pre_diff=.5/1e18;
 MAT(1).Ediff=0;
 MAT(1).ndiff=1;
 % dislocation creep parameters
-MAT(1).pre_disc=.5/1e20;
+MAT(1).pre_disc=.5/1e18;
 MAT(1).Edisc=0;
 MAT(1).ndisc=1;
 % plasticity
@@ -67,6 +71,31 @@ MAT(1).mumin=0.6;
 MAT(1).Cmax=30e6;
 MAT(1).Cmin=30e6;
 MAT(1).ecrit=0.1;
+
+% phase 1: constant viscosity phase
+MAT(2).phase=1;
+% density parameters
+MAT(2).rho0=3000;
+MAT(2).alpha=0;
+% thermal parameters
+MAT(2).k=2;
+MAT(2).cp=1000;
+% elasticity 
+MAT(2).G=1e18;
+% diffusion creep parameters
+MAT(2).pre_diff=.5/1e20;
+MAT(2).Ediff=0;
+MAT(2).ndiff=1;
+% dislocation creep parameters
+MAT(2).pre_disc=.5/1e20;
+MAT(2).Edisc=0;
+MAT(2).ndisc=1;
+% plasticity
+MAT(2).mu=0.6;
+MAT(2).mumin=0.6;
+MAT(2).Cmax=30e6;
+MAT(2).Cmin=30e6;
+MAT(2).ecrit=0.1;
 
 
 % BOUNDARY CONDITIONS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -83,10 +112,10 @@ PARAMS.p0cell=0; % pressure in the top-left corner of the domain (anchor point)
 % 3/ value of normal velocity 
 
 BC.top=[1 0 0];
-BC.bot=[1 0 0];
+BC.bot=[1 0 -2.8519e-10];
 BC.left=[1 0 -3.1688e-10];
 BC.right=[1 0 3.1688e-10];
-PARAMS.BalanceStickyLayer=0; % if set to 1, the code will reset the inflow 
+PARAMS.BalanceStickyLayer=1; % if set to 1, the code will reset the inflow 
 % / outflow BCs to balance the inflow / outflow of sticky layer material,
 % and rock separately, based on the position of the sticky layer / air
 % interface
@@ -104,14 +133,14 @@ BCtherm.right=[0 0];
 
 % TMorrow 22 Sep 2019 - Dike injection routines/controls
 BC.DIKE.on=1; % Diking on (1) or off (0)
-BC.DIKE.mval=0.8; % M value
-BC.DIKE.xL=49.999e3; % left bound of dike
-BC.DIKE.xR=50.001e3; % right bound of dike
-BC.DIKE.top=0e3; % dike top
+BC.DIKE.mval=1.0; % M value
+BC.DIKE.xL=99.999e3; % left bound of dike
+BC.DIKE.xR=100.001e3; % right bound of dike
+BC.DIKE.top=10e3; % dike top
 BC.DIKE.bot=100e3;
 
 % ADDITIONAL PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-PARAMS.YNElast=1; % elasticity on (1) or off (0)
+PARAMS.YNElast=0; % elasticity on (1) or off (0)
 PARAMS.YNPlas=0; % plasticity on (1) or off (0)
 PARAMS.tau_heal=1e20; % healing time for plasticity (s)
 PARAMS.gx=0; % gravity along x
@@ -120,7 +149,7 @@ PARAMS.fracCFL=0.5; % distance by which a marker is allowed to move over a time 
 PARAMS.R=8.314; % gas constant
 PARAMS.etamax=1e25; % maximum viscosity
 PARAMS.etamin=1e18; % minimum viscosity
-PARAMS.Tsolve=1; % yes (1) or no (0) solve for temperature
+PARAMS.Tsolve=0; % yes (1) or no (0) solve for temperature
 % initial temperature profile, polynomial with depth 
 % T = a0 + a1*y+a2*y^2+a3*y^3+amp*sin(2*pi*X/lam)
 % (make sure it matches the BCs)
@@ -134,7 +163,7 @@ PARAMS.ynTreset=1; % if ==1, reset T=T0 where im==1 (sticky layer)
 PARAMS.T0=0;
 % reference values for the constant diffusivity thermal solver
 % (kappa = kref / (rhoref*cpref))
-PARAMS.rhoref=MAT(2).rho0; 
+PARAMS.rhoref=MAT(1).rho0; 
 PARAMS.kref=2;
 PARAMS.cpref=1000;
 
@@ -177,13 +206,6 @@ PARAMS.Npicard_max_interDike=20; % maximum number of inter-Dike Picard iteration
 PARAMS.conv_crit_ResL2=1e-3; % convergence criterion
 PARAMS.conv_crit_ResL2_interDike=1e-1; % convergence criterion for inter-dike iterations
 PARAMS.pitswitch=0; % number of Picard iterations at which the solver switches to quasi-Newton
-
-% INITIAL FAULT SEED
-fault.width=1500;
-fault.dip=50;
-fault.depth=BC.DIKE.Lmin;
-fault.isotherm=800;
-fault.conjugate=0;
 
 % SURFACE PROCESSES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 LEMPARAMS.whichmodel = 0;
