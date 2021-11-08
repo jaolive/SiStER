@@ -2,7 +2,7 @@
 
 
 % DURATION OF SIMULATION AND FREQUENCY OF OUTPUT %%%%%%%%%%%%%%%%%%%%%%%%%%
-Nt=20; % max number of time iterations
+Nt=50; % max number of time iterations
 dt_out=1; %10 % output files every "dt_out" iterations
 
 
