@@ -1,4 +1,4 @@
-function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH,epsIIm)
+function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm, dm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH,epsIIm,dm)
 % function [xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH,epsIIm)
 %
 % seeds new markers in all quadrants where marker density has fallen below
@@ -51,6 +51,7 @@ te_fix=[]; % temperature
 sxx_fix=[]; % stress
 sxy_fix=[]; % stress
 sr_fix=[]; % strain rate
+dm_fix=[]; % dike markers TMorrow 08 Nov 2021
    
 if ~isempty(iicr) % if there are critical quadrants
          
@@ -105,6 +106,7 @@ if ~isempty(iicr) % if there are critical quadrants
         sxx_fix=zeros(1,Nfix);
         sxy_fix=zeros(1,Nfix);
         sr_fix=zeros(1,Nfix);
+        dm_fix=zeros(1,Nfix);
         
     else
         
@@ -121,6 +123,8 @@ if ~isempty(iicr) % if there are critical quadrants
         stress_xx_fix=mean((sxxm(icn==icell & jcn==jcell)));
         stress_xy_fix=mean((sxym(icn==icell & jcn==jcell)));
         strainrate_fix=mean((epsIIm(icn==icell & jcn==jcell)));
+        % dike marker fix
+        dike_fix=round(mode((dm(icn==icell & jcn==jcell))));
         
     end
 
@@ -131,6 +135,7 @@ if ~isempty(iicr) % if there are critical quadrants
     sxx_fix=[sxx_fix stress_xx_fix*ones(1,Nfix)];
     sxy_fix=[sxy_fix stress_xy_fix*ones(1,Nfix)];
     sr_fix=[sr_fix strainrate_fix*ones(1,Nfix)];
+    dm_fix=[dm_fix dike_fix*ones(1,Nfix)];
     
     end
 
@@ -151,6 +156,7 @@ Tm(Ifix)=te_fix;
 sxxm(Ifix)=sxx_fix;
 sxym(Ifix)=sxy_fix;
 epsIIm(Ifix)=sr_fix;
+dm(Ifix)=dm_fix;
 
 % uncomment to display number of added markers
 %fprintf('\n%d%s%d%s\n', length(Ifix), ' markers added in ', length(iicr), ' cell quadrants.')

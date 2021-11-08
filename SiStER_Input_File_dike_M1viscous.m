@@ -137,7 +137,8 @@ BC.DIKE.mval=1.0; % M value
 BC.DIKE.xL=99.999e3; % left bound of dike
 BC.DIKE.xR=100.001e3; % right bound of dike
 BC.DIKE.top=10e3; % dike top
-BC.DIKE.bot=100e3;
+BC.DIKE.bot=100e3; % dike bottom
+BC.DIKE.injmat=2; % injected phase
 
 % ADDITIONAL PARAMETERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 PARAMS.YNElast=0; % elasticity on (1) or off (0)

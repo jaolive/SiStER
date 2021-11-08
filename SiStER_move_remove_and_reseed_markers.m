@@ -19,6 +19,7 @@ idm=idm(Iin);
 sxxm=sxxm(Iin);
 sxym=sxym(Iin);
 epsIIm=epsIIm(Iin);
+dm=dm(Iin); % dike markers
 
 % locate advected markers with respect to the eulerian grid
 [quad,icn,jcn] = SiStER_locate_markers_in_grid(xm,ym,x,y,dx,dy);
@@ -28,7 +29,7 @@ epsIIm=epsIIm(Iin);
 % those new markers immediately get assigned a value of phase (im), index 
 % (idm) and accumulated plastic strain (ep), i.e., the 2 variables that never get
 % passed to nodes. 
-[xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH, epsIIm);    
+[xm, ym, im, Ifix, mp, ep, idm, Tm, sxxm, sxym, epNH, epsIIm, dm]=SiStER_patch_marker_holes(icn,jcn,quad,Nx,Ny,Mquad,Mquad_crit,xm,ym,x,y,dx,dy,im,ep,idm,Tm,sxxm,sxym,epNH, epsIIm, dm);    
 
 % then they get assigned P, epsII and stresses from grid values
 

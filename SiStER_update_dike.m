@@ -46,14 +46,15 @@ BC.DIKE.MV=BC.DIKE.M.*(abs(BC.right(3))+abs(BC.left(3))); % get M*V
 
 % ---------------------
     
-% ------- track dike material
-%dm(:)=0;
+% ------- track dike material, assign injection phase
+dm(:)=0;
 
 % find markers in/around dike area
-%[dm]=SiStER_interp_normal_nodes_to_markers(BC.DIKE.M,xc,yc,xm,ym,icn,jcn);
+[dm]=SiStER_interp_normal_nodes_to_markers(BC.DIKE.M,xc,yc,xm,ym,icn,jcn);
+dm(dm>0)=1;
 
-%dm(dm>0)=1;
-%im(dm==1 & im>1)=4;
+% assign injected phase (unless sticky air)
+im(dm==1 & im>1)=BC.DIKE.injmat;
 
 %mcreate(dm==1 & mcreate==0)=time;
 
