@@ -111,7 +111,7 @@ PARAMS.p0cell=0; % pressure in the top-left corner of the domain (anchor point)
 % 2/ type of velocity normal to boundary (0=constant)
 % 3/ value of normal velocity 
 
-BC.top=[1 0 0];
+BC.top=[1 3 0];
 BC.bot=[1 0 -2.8519e-10];
 BC.left=[1 0 -3.1688e-10];
 BC.right=[1 0 3.1688e-10];
@@ -134,8 +134,8 @@ BCtherm.right=[0 0];
 % TMorrow 22 Sep 2019 - Dike injection routines/controls
 BC.DIKE.on=1; % Diking on (1) or off (0)
 BC.DIKE.mval=1.0; % M value
-BC.DIKE.xL=99.999e3; % left bound of dike
-BC.DIKE.xR=100.001e3; % right bound of dike
+BC.DIKE.xL=100.999e3; % left bound of dike
+BC.DIKE.xR=101.001e3; % right bound of dike
 BC.DIKE.top=10e3; % dike top
 BC.DIKE.bot=100e3; % dike bottom
 BC.DIKE.injmat=2; % injected phase

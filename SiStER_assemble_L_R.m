@@ -28,10 +28,10 @@ Kb=4*meta/(mdx+mdy)^2;
 
 
 % pressure anchor
-IP=2;
-JP=3;
-%JP=ceil((Nx-1)/2); %G.Ito
 %IP=2;
+%JP=3;
+JP=ceil((Nx-1)/2); %G.Ito
+IP=2;
 
 
 % fill in FD matrix and right-hand side
@@ -51,7 +51,7 @@ for j=1:Nx
         
         if (i==1) || (j==1) || (i==2 && j==2) || (i==2 && j==Nx) || ....
            (i==Ny && j==2) || (i==Ny && j==Nx) || (i==IP && j==JP && BC.top(2)~=3) || ...
-           (BC.top(2)==3 && i==2 && j > 2 && j < Ny) %<--G.Ito
+           (BC.top(2)==3 && i==2 && j > 2 && j < Nx) %<--G.Ito
             
             
             % boundary conditions
@@ -99,7 +99,7 @@ for j=1:Nx
                 R(inp,1)=0;
             end
             
-            if (BC.top(2)==3 && i==2 && j > 2 && j < Ny)  %open top effect all nodes but corners, G.Ito
+            if (BC.top(2)==3 && i==2 && j > 2 && j < Nx)  %open top effect all nodes but corners, G.Ito
                 % Pressure gradient between top two rows extrapolates to 0 pressure at very top
 % 
                 Lii(nn) = inp;
