@@ -8,15 +8,21 @@ dt_out=1; %10 % output files every "dt_out" iterations
 
 % DOMAIN SIZE AND GRIDDING %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 xsize=200e3;
-ysize=100e3;
+ysize=80e3;
 % gridding- from 0 to GRID.x(1), grid size is GRID.dx(1)
 % from GRID.x(1) to GRID.x(2), grid size is GRID.dx(1) etc...
 % same for y
 
 GRID.dx(1)=1000;
-GRID.x(1)=200e3;
-GRID.dy(1)=1000;
-GRID.y(1)=100e3;
+GRID.x(1)=60e3;
+GRID.dx(2)=250;
+GRID.x(2)=140e3;
+GRID.dx(3)=1000;
+GRID.x(3)=200e3;
+GRID.dy(1)=250;
+GRID.y(1)=50e3;
+GRID.dy(2)=1000;
+GRID.y(2)=80e3;
 
 % LAGRANGIAN MARKERS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 Mquad=8; % number of markers in the smallest quadrant
