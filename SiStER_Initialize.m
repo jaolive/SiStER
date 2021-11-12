@@ -53,7 +53,13 @@ end
 % initialize marker chain to track base of layer 1 (sticky layer)
 Ntopo=PARAMS.Ntopo_markers;
 topo_x=linspace(0,xsize,Ntopo);
-topo_y=GEOM(1).bot*ones(size(topo_x));
-topo_marker_spacing=mean(diff(topo_x)); % initial mean spacing of topography markers
+if GEOM(1).type==4
+	[SA_botx,SA_ia,SA_idx] = unique(GEOM(1).xv,'stable');
+	SA_boty=accumarray(SA_idx,GEOM(1).yv,[],@max);
+	topo_y=interp1(SA_botx,SA_boty,topo_x);
+else 
+	topo_y=GEOM(1).bot*ones(size(topo_x));
+end
 
+topo_marker_spacing=mean(diff(topo_x)); % initial mean spacing of topography markers
 

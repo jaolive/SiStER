@@ -23,6 +23,10 @@ for kk = 1:Nphase
     elseif GEOM(kk).type==3 % rectangle
         
         im(ym>=GEOM(kk).top & ym<GEOM(kk).bot & xm>=GEOM(kk).left & xm<GEOM(kk).right)=kk;
+    
+    elseif GEOM(kk).type==4 %polygon defined by vertices
+        in = inpolygon(xm,ym,GEOM(kk).xv,GEOM(kk).yv);
+        im(in)=kk;   
         
     end
     
