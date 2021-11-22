@@ -76,6 +76,7 @@ MAT(1).mu=0.6;
 MAT(1).mumin=0.3;
 MAT(1).Cmax=30e6;
 MAT(1).Cmin=10e6;
+MAT(1).ep1=0.05;
 MAT(1).ecrit=0.1;
 
 % phase 2: constant viscosity lithosphere
@@ -101,6 +102,7 @@ MAT(2).mu=0.6;
 MAT(2).mumin=0.3;
 MAT(2).Cmax=30e6;
 MAT(2).Cmin=10e6;
+MAT(2).ep1=0.05;
 MAT(2).ecrit=0.1;
 
 % phase 3: constant viscosity astheonsphere
@@ -126,6 +128,7 @@ MAT(3).mu=0.6;
 MAT(3).mumin=0.3;
 MAT(3).Cmax=30e6;
 MAT(3).Cmin=10e6;
+MAT(3).ep1=0.05;
 MAT(3).ecrit=0.1;
 
 

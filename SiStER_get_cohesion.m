@@ -12,9 +12,14 @@ for i = 1:length(types)
     Cmax=MAT(types(i)).Cmax;
     Cmin=MAT(types(i)).Cmin;
     epscrit=MAT(types(i)).ecrit;
+    ep1=MAT(types(i)).ep1;    %Start weakening at this plastic strain
 
     % get cohesion
-    cohes(imInd)=max(Cmax+(Cmin-Cmax).*ep(imInd)./epscrit,Cmin);
+    %cohes(imInd)=max(Cmax+(Cmin-Cmax).*ep(imInd)./epscrit,Cmin);
+    
+    % initial weakening cohesion - from G Ito
+    % (https://github.com/GTAIto/JAOlive_SiStER) - TMorrow 22 Nov 2021
+    cohes(imInd)=min( max( Cmax+(Cmin-Cmax).*(ep(imInd)-ep1)./(epscrit-ep1),Cmin),Cmax);
 end
 
 return

@@ -46,7 +46,7 @@ etan_new=zeros(Ny,Nx);
 %-------------------------------------------------------------------------
 % initialize dt_m small to keep things elastic & no plasticity at t=1, G.Ito
 %-------------------------------------------------------------------------
-if (exist('dt_m','var')==0);
+if (exist('dt_m','var')==0)
     dt_m=1e2;
 end
 
@@ -59,6 +59,14 @@ topo_marker_spacing=mean(diff(topo_x)); % initial mean spacing of topography mar
 % initialize dike terms
 if BC.DIKE.on==1
     SiStER_Initialize_dike
+end
+
+% initial weakening cohesion - from G Ito
+% (https://github.com/GTAIto/JAOlive_SiStER) - TMorrow 22 Nov 2021
+for i=1:Nphase
+    if (isfield(MAT(i),'ep1')==0)  %Initialize ep1, i.e., plastic strain when weakening starts
+        MAT(i).ep1=0;
+    end
 end
 
 
