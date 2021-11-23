@@ -64,7 +64,7 @@ end
 % initial weakening cohesion - from G Ito
 % (https://github.com/GTAIto/JAOlive_SiStER) - TMorrow 22 Nov 2021
 for i=1:Nphase
-    if (isfield(MAT(i),'ep1')==0)  %Initialize ep1, i.e., plastic strain when weakening starts
+    if ~isfield(MAT(i),'ep1') || isempty(MAT(i).ep1)  %Initialize ep1, i.e., plastic strain when weakening starts
         MAT(i).ep1=0;
     end
 end

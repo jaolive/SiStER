@@ -5,6 +5,14 @@ function[BC,ep,epsIIm,epNH,sxxm,Tm,T,im,p,sxxOLD]=SiStER_update_dike(BC,X,Y,x,y,
 
 % dikes only work in the domain (away from edges) and within a fixed grid size region. If a dike is adjacent to the varaible grid size change, there will be problems
 
+% ------- impose thermal condition if set
+
+if BC.DIKE.imposethermal>0
+    SiStER_impose_thermal_condition
+end
+
+% ---------------------
+
 % ------- find topo interface, calculate compensating inflow for outflowing air and rock layers
 
 bL=interp1(topo_x,topo_y,0);

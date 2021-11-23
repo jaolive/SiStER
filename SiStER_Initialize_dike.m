@@ -34,4 +34,9 @@ if PARAMS.BalanceStickyLayer~=0 && BC.DIKE.on==1
 	disp('--------------------------------------------');
 end
 
+if BC.DIKE.imposethermal>0
+    disp('- INITIALIZING THERMAL CONDITION -');
+    disp('- overwriting thermal model -');
+    SiStER_impose_thermal_condition
+end
 
