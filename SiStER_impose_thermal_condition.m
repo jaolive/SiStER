@@ -1,8 +1,8 @@
-%==========================================================================
+% =========================================================================
 % SiStER_impose_thermal_condition
 % Imposes one of several thermal conditions on markers, interpolates to
 % nodes TMorrow 23 Nov 2021
-%==========================================================================
+% =========================================================================
 
 % ===== Thermal Model 1 ===================================================
 
@@ -14,7 +14,24 @@ if BC.DIKE.imposethermal==1
     Tm=BCtherm.bot(2).*erf(0.5*(abs(ym)-mean(topo_y))./sqrt(MAT(2).k/MAT(2).rho0/MAT(2).cp.*(1.0e6*24*3600*365.25+abs(xm-xsize/2)./BC.right(3))));
 end
 
-%==========================================================================
+% =========================================================================
+
+% ===== Thermal Model 2 ===================================================
+
+% "Notch" structure after Behn & Ito, 2008
+
+if BC.DIKE.imposethermal==2
+    
+    BC.DIKE.Nwide=40e3;
+    BC.DIKE.Lmin=10e3;
+    BC.DIKE.Lmax=20e3;
+    
+    Tm(abs(xm-xsize/2) < BC.DIKE.Nwide)=(ym(abs(xm-xsize/2) < BC.DIKE.Nwide)-mean(topo_y)).*700.*((1/BC.DIKE.Lmax-1/BC.DIKE.Lmin).*abs(xm(abs(xm-xsize/2) < BC.DIKE.Nwide)-xsize/2)./BC.DIKE.Nwide+1/BC.DIKE.Lmin);
+	Tm(abs(xm-xsize/2) >= BC.DIKE.Nwide)=(ym(abs(xm-xsize/2) >= BC.DIKE.Nwide)-mean(topo_y)).*700.*((1/BC.DIKE.Lmax-1/BC.DIKE.Lmin)+1/BC.DIKE.Lmin);
+	
+end
+
+% =========================================================================
 
 % bound temperature
 Tm(Tm>BCtherm.bot(2))=BCtherm.bot(2);

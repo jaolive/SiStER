@@ -22,9 +22,11 @@ elseif strcmp(type,'from_strain_rate')==1
     
 elseif strcmp(type,'custom')==1
     
-    disp('ERROR ? CUSTOM VISCOSITY FUNCTION NOT CURRENTLY DEFINED')
-    disp('this feature will be available in a future update.')
-    eta = PARAMS.customviscofunction(phase,temperature,strain_rate,stress);
+    eta = PARAMS.customviscofunction(T);
+    %disp('ERROR ? CUSTOM VISCOSITY FUNCTION NOT CURRENTLY DEFINED')
+    %disp('this feature will be available in a future update.')
+    %eta = Customviscofunction(phase,temperature,strain_rate,stress);
+    %eta = 1*10.^(17+((7/2*(1/7+2/pi*atan((T-1)/0.001)))+5/2*(1+2/pi*atan((700-T)/10))-2));
     
 else
 
