@@ -75,6 +75,10 @@ for t=1:Nt % time loop
     if PARAMS.Tsolve==1
         SiStER_thermal_update;
     end
+    
+    if BC.DIKE.imposethermal>0
+        SiStER_impose_thermal_condition
+    end
 
     % MARKER ADVECTION, REMOVAL, AND ADDITION %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     SiStER_move_remove_and_reseed_markers;

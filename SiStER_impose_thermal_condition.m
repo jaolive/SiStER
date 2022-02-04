@@ -11,7 +11,13 @@
 % mantle temperatures do not exist at surface in center of domain)
 
 if BC.DIKE.imposethermal==1    
-    Tm=BCtherm.bot(2).*erf(0.5*(abs(ym)-mean(topo_y))./sqrt(MAT(2).k/MAT(2).rho0/MAT(2).cp.*(1.0e6*24*3600*365.25+abs(xm-xsize/2)./BC.right(3))));
+
+	% draped on mean topo
+	%Tm=BCtherm.bot(2).*erf(0.5*(abs(ym)-mean(topo_y))./sqrt(MAT(2).k/MAT(2).rho0/MAT(2).cp.*(1.0e6*24*3600*365.25+abs(xm-xsize/2)./BC.right(3))));
+
+    % draped on topo
+    Tm=BCtherm.bot(2).*erf(0.5*(abs(ym)-interp1(topo_x,topo_y,xm))./sqrt(MAT(2).k/MAT(2).rho0/MAT(2).cp.*(1.0e6*24*3600*365.25+abs(xm-xsize/2)./BC.right(3))));
+    
 end
 
 % =========================================================================
@@ -36,6 +42,9 @@ end
 % bound temperature
 Tm(Tm>BCtherm.bot(2))=BCtherm.bot(2);
 Tm(Tm<0)=0;
+
+% air is T=0
+Tm(im<=1.5)=0;
 
 % get temperature on nodes
 [n2interp] = SiStER_interp_markers_to_shear_nodes(xm,ym,icn,jcn,qd,x,y,Tm);

@@ -7,9 +7,9 @@ function[BC,ep,epsIIm,epNH,sxxm,Tm,T,im,p,sxxOLD]=SiStER_update_dike(BC,X,Y,x,y,
 
 % ------- impose thermal condition if set
 
-if BC.DIKE.imposethermal>0
-    SiStER_impose_thermal_condition
-end
+%if BC.DIKE.imposethermal>0
+%    SiStER_impose_thermal_condition
+%end
 
 % ---------------------
 
